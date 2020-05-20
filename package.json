@@ -15,5 +15,7 @@
   "bugs": {
     "url": "https://github.com/reecube/node-video-processing/issues"
   },
-  "homepage": "https://github.com/reecube/node-video-processing#readme"
+  "dependencies": {
+    "jimp": "^0.12.1"
+  }
 }
