@@ -10,5 +10,7 @@ const frameLib = require('./frame');
 
     frame = await frameLib.onFrame(frame);
 
+    //frame.grayscale().contrast(0.4).gaussian(1);
+
     await frame.writeAsync(output);
 })();
