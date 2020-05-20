@@ -43,6 +43,8 @@ const setPixel = function (bitmap, idx, pixel) {
  */
 const onFrame = async function (frame) {
 
+    const colorMax = 255;
+
     const threshold = 240;
 
     const contrast = 40;
@@ -53,7 +55,7 @@ const onFrame = async function (frame) {
         const pixel = getPixel(this.bitmap, idx);
 
         // Ignore pixel with transparency
-        if (pixel.alpha < 255) return;
+        if (pixel.alpha < colorMax) return;
 
         const total = pixel.red + pixel.green + pixel.blue;
         const avg = total / 3;
