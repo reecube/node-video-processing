@@ -76,6 +76,8 @@ async function onFrame(frame) {
 (async function () {
     console.log("Initializing temporary files");
 
+    await fs.remove(pathTemp);
+
     await fs.mkdirs(pathTempFramesRaw);
     await fs.mkdirs(pathTempFramesEdited);
 
@@ -91,9 +93,11 @@ async function onFrame(frame) {
 
     const barLoading = new cliProgress.SingleBar({}, cliProgress.Presets.shades_classic);
 
-    barLoading.start(framePaths.count, count);
+    barLoading.start(framePaths.length, count);
 
-    for (const framePath of framePaths) {
+    for (const frameFile of framePaths) {
+        const framePath = `${pathTempFramesRaw}/${frameFile}`;
+
         let frame = await Jimp.read(framePath);
 
         frame = await onFrame(frame);
