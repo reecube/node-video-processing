@@ -15,7 +15,7 @@ const pathTemp = 'temp';
 const pathTempFramesRaw = `${pathTemp}/raw`;
 const pathTempFramesEdited = `${pathTemp}/edited`;
 
-const image = require('./image');
+const frameLib = require('./frame');
 
 (async function () {
     console.log("Initializing temporary files");
@@ -44,7 +44,7 @@ const image = require('./image');
 
         let frame = await Jimp.read(framePath);
 
-        frame = await image.onFrame(frame);
+        frame = await frameLib.onFrame(frame);
 
         await frame.writeAsync(framePath.replace(pathTempFramesRaw, pathTempFramesEdited));
 
