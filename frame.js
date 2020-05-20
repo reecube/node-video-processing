@@ -5,10 +5,10 @@
 
 /**
  * @typedef {object} Pixel
- * @property {number} red
- * @property {number} green
- * @property {number} blue
- * @property {number} alpha
+ * @property {number} red 0 - 255
+ * @property {number} green 0 - 255
+ * @property {number} blue 0 - 255
+ * @property {number} alpha 0 - 255
  */
 
 /**
@@ -43,17 +43,40 @@ const setPixel = function (bitmap, idx, pixel) {
  */
 const onFrame = async function (frame) {
 
+    const threshold = 240;
+
+    const contrast = 40;
+
     // Manual manipulation
     frame.scan(0, 0, frame.bitmap.width, frame.bitmap.height, function (x, y, idx) {
 
         const pixel = getPixel(this.bitmap, idx);
 
-        console.log(pixel);
+        // Ignore pixel with transparency
+        if (pixel.alpha < 255) return;
 
-        pixel.red = pixel.green;
-        pixel.green = pixel.blue;
-        pixel.blue = pixel.red;
-        pixel.alpha = Math.random() * 255;
+        const total = pixel.red + pixel.green + pixel.blue;
+        const avg = total / 3;
+
+        pixel.red = avg;
+        pixel.green = avg;
+        pixel.blue = avg;
+
+        const grayContrast = Math.round(avg / contrast) * contrast;
+
+        pixel.red = grayContrast;
+        pixel.green = grayContrast;
+        pixel.blue = grayContrast;
+
+        // pixel.red = Math.round(pixel.red / contrast) * contrast;
+        // pixel.green = Math.round(pixel.green / contrast) * contrast;
+        // pixel.blue = Math.round(pixel.blue / contrast) * contrast;
+
+        // if (pixel.red < threshold && pixel.green < threshold && pixel.blue < threshold) {
+        //     return;
+        // }
+        //
+        // pixel.alpha = 0;
 
         setPixel(this.bitmap, idx, pixel);
     });
